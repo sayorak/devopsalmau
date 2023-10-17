@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Список проблем</h2>
+<ul>
+    {% for problem in problems %}
+        <li><a href="{% url 'view_problem' problem.id %}">{{ problem.title }}</a> - {{ problem.get_status_display }}</li>
+    {% empty %}
+        <li>Нет проблем.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'create_problem' %}">Создать новую проблему</a>
+<a href="{% url 'logout_view' %}">Выйти</a>
+{% endblock %}

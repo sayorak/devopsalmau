@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Проблемы</title>
+</head>
+<body>
+    <header>
+        <h1>Проблемы</h1>
+        <nav>
+            <a href="{% url 'create_problem' %}">Создать проблему</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'problem_list' %}">Список проблем</a>
+                <a href="{% url 'logout_view' %}">Выйти</a>
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>

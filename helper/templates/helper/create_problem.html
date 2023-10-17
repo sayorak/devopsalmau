@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Создать новую проблему</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Создать</button>
+</form>
+<a href="{% url 'problem_list' %}">Назад к списку проблем</a>
+<a href="{% url 'logout_view' %}">Выйти</a>
+{% endblock %}

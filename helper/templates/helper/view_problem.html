@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ problem.title }}</h2>
+<p><strong>Статус:</strong> {{ problem.get_status_display }}</p>
+<p><strong>Описание:</strong> {{ problem.description }}</p>
+<p><strong>Назначена на:</strong> {{ problem.user.username }}</p>
+{% if problem.resolved_user %}
+<p><strong>Решена:</strong> {{ problem.resolved_user.username }}</p>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    <label for="action">Действие:</label>
+    <input type="text" name="action" id="action" required>
+    <button type="submit">Сохранить действие</button>
+</form>
+
+{% if problem.action %}
+    <p><strong>Последнее действие:</strong> {{ problem.action }}</p>
+{% endif %}
+
+<form method="post" action="{% url 'view_problem' problem.id %}">
+    {% csrf_token %}
+    <label for="status">Изменить статус:</label>
+    <select name="status" id="status">
+        <option value="new">New</option>
+        <option value="in_progress">In Progress</option>
+        <option value="resolved">Resolved</option>
+    </select>
+    <button type="submit">Сохранить статус</button>
+</form>
+<form method="post">
+    {% csrf_token %}
+    <label for="assigned_to">Переназначить задачу на:</label>
+    <select name="assigned_to" id="assigned_to">
+        <option value="">Выберите пользователя</option>
+        {% for user in users %}
+            <option value="{{ user.id }}" {% if problem.assigned_to == user %}selected{% endif %}>{{ user.username }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Переназначить</button>
+</form>
+
+<a href="{% url 'problem_list' %}">Назад к списку проблем</a>
+<a href="{% url 'logout_view' %}">Выйти</a>
+{% endblock %}
