@@ -35,13 +35,6 @@ def register_view(request):
     return render(request, 'helper/register.html', {'form': form})
 
 
-@login_required
-def problem_list(request):
-    problems = Problem.objects.filter(user=request.user)
-
-    return render(request, 'helper/problem_list.html', {'problems': problems})
-
-
 def create_problem(request):
     if request.method == 'POST':
         form = ProblemForm(request.POST)
@@ -52,10 +45,16 @@ def create_problem(request):
             random_user = random.choice(reception_users)
             problem.user = random_user
             problem.save()
-            return redirect('problem_list')
+            return redirect('create_problem')
     else:
         form = ProblemForm()
     return render(request, 'helper/create_problem.html', {'form': form})
+
+
+@login_required
+def problem_list(request):
+    problems = Problem.objects.filter(user=request.user)
+    return render(request, 'helper/problem_list.html', {'problems': problems})
 
 
 @login_required
